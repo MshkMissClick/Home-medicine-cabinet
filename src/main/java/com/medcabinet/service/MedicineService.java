@@ -1,5 +1,7 @@
 package com.medcabinet.service;
 
+import com.medcabinet.dto.MedicineDTO;
+import com.medcabinet.mapper.MedicineMapper;
 import com.medcabinet.model.Medicine;
 import com.medcabinet.model.MedicineType;
 import com.medcabinet.model.ApplicationArea;
@@ -26,12 +28,17 @@ public class MedicineService {
     @Autowired
     private ApplicationAreaRepository applicationAreaRepository;
 
-    public List<Medicine> getAllMedicines() {
-        return medicineRepository.findAll();
+    @Autowired
+    private MedicineMapper medicineMapper;
+
+    public List<MedicineDTO> getAllMedicines() {
+        List<Medicine> medicines = medicineRepository.findAll();
+        return medicineMapper.toDTOList(medicines); // ИСПОЛЬЗУЕМ МАППЕР
     }
 
-    public Optional<Medicine> getMedicineById(Long id) {
-        return medicineRepository.findById(id);
+    public Optional<MedicineDTO> getMedicineById(Long id) {
+        return medicineRepository.findById(id)
+                .map(medicineMapper::toDTO);
     }
 
     public Medicine createMedicine(Medicine medicine, Long typeId, Set<Long> areaIds) {

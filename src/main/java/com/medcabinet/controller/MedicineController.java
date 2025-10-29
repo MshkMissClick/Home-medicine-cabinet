@@ -1,5 +1,6 @@
 package com.medcabinet.controller;
 
+import com.medcabinet.dto.MedicineDTO;
 import com.medcabinet.model.Medicine;
 import com.medcabinet.service.MedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,12 @@ public class MedicineController {
     private MedicineService medicineService;
 
     @GetMapping
-    public List<Medicine> getAllMedicines() {
-        return medicineService.getAllMedicines();
+    public List<MedicineDTO> getAllMedicines() {
+        return medicineService.getAllMedicines(); // возвращает DTO
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Medicine> getMedicineById(@PathVariable Long id) {
+    public ResponseEntity<MedicineDTO> getMedicineById(@PathVariable Long id) {
         return medicineService.getMedicineById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

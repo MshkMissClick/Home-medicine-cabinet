@@ -22,10 +22,16 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/users/register").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers(
+                                "/**",  // РАЗРЕШАЕМ ВСЁ БЕЗ АВТОРИЗАЦИИ
+                                "/swagger-ui/**",
+                                "/api-docs/**",
+                                "/h2-console/**",
+                                "/api/**"
+                        ).permitAll()
+                        .anyRequest().permitAll()  // И ЭТУ СТРОКУ ДОБАВЬ
                 )
-                .httpBasic(withDefaults -> {});
+                .headers(headers -> headers.frameOptions(frame -> frame.disable())); // для H2
 
         return http.build();
     }
