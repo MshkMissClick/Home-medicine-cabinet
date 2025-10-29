@@ -1,13 +1,22 @@
-import React from 'react'
-import './App.css'
+import { AuthProvider } from './contexts/AuthContext';
+import { MedicineProvider } from './contexts/MedicineContext';
+import { Header } from './components/layout/Header';
+import { MedicineList } from './components/medicine/MedicineList';
+import './styles/globals.css';
 
 function App() {
     return (
-        <div className="App">
-            <h1>💊 MedCabinet</h1>
-            <p>Frontend is working!</p>
-        </div>
-    )
+        <AuthProvider>
+            <MedicineProvider>
+                <div className="min-h-screen bg-gray-50">
+                    <Header />
+                    <main>
+                        <MedicineList />
+                    </main>
+                </div>
+            </MedicineProvider>
+        </AuthProvider>
+    );
 }
 
-export default App
+export default App;
